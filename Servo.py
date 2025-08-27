@@ -22,10 +22,10 @@ def close_grabber():
 
 try:
     while True:
-        state = input("Enter State (open/close): ") # 180 degree is fully closed
-        if state == "open":
+        state = input("Enter State (o/c): ") # 180 degree is fully closed
+        if state == "o":
             open_grabber()
-        elif state == "close":
+        elif state == "c":
             close_grabber()
 
 except KeyboardInterrupt:
