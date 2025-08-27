@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-servo_pin = 18  # PWM pin (GPIO18)
+servo_pin = 21  # PWM pin (GPIO18)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(servo_pin, GPIO.OUT)
 
@@ -13,11 +13,20 @@ def set_angle(angle):
     pwm.ChangeDutyCycle(duty)
     time.sleep(0.5)
     pwm.ChangeDutyCycle(0)  # Stop sending signal (prevents jitter)
+    
+def open_grabber():
+    set_angle(0)
+    
+def close_grabber():
+    set_angle(180)
 
 try:
     while True:
-        angle = int(input("Enter angle (0 to 180): "))
-        set_angle(angle)
+        state = input("Enter State (open/close): ") # 180 degree is fully closed
+        if state == "open":
+            open_grabber()
+        elif state == "close":
+            close_grabber()
 
 except KeyboardInterrupt:
     print("Stopped by user")
