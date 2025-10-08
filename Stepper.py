@@ -29,7 +29,7 @@ try:
         GPIO.output(STEP, GPIO.LOW)
         time.sleep(delay)
 
-    print("Done ✅")
+    print("Done")
 
 except KeyboardInterrupt:
     print("\nStopped manually.")
