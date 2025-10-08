@@ -3,7 +3,7 @@ import time
 
 # Pin setup
 DIR = 20      # Direction pin
-STEP = 21     # Step pin
+STEP = 16     # Step pin
 SPR = 200     # Steps per revolution (adjust if microstepping)
 
 GPIO.setmode(GPIO.BCM)
@@ -29,7 +29,7 @@ try:
         GPIO.output(STEP, GPIO.LOW)
         time.sleep(delay)
 
-    print("Done")
+    print("Done ✅")
 
 except KeyboardInterrupt:
     print("\nStopped manually.")
