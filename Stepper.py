@@ -9,6 +9,26 @@ SPR = 200     # Steps per revolution (adjust if microstepping)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(DIR, GPIO.OUT)
 GPIO.setup(STEP, GPIO.OUT)
+delay = 0.001 
+
+step_count = 0
+
+def Lift(direction, revs):
+    if direction == 0:
+        multiplyer = -1
+    elif direction == 1:
+        multiplyer = 1
+    else:
+        multiplyer = 0
+    step_count += revs * multiplyer 
+
+    GPIO.output(DIR, GPIO.HIGH if direction == 0 else GPIO.LOW)
+    steps = int(SPR * revs)
+    for _ in range(steps):
+        GPIO.output(STEP, GPIO.HIGH)
+        time.sleep(delay)
+        GPIO.output(STEP, GPIO.LOW)
+        time.sleep(delay)
 
 try:
     # Input: "0 5" for 5 rev CW, "1 2.5" for 2.5 rev CCW
@@ -19,8 +39,7 @@ try:
     GPIO.output(DIR, GPIO.HIGH if direction == 0 else GPIO.LOW)
 
     steps = int(SPR * revs)
-    delay = 0.001  # adjust for speed
-
+    
     print(f"Rotating {revs} revolutions {'CW' if direction == 0 else 'CCW'}...")
 
     for _ in range(steps):
