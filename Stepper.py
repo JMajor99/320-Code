@@ -11,16 +11,13 @@ GPIO.setup(DIR, GPIO.OUT)
 GPIO.setup(STEP, GPIO.OUT)
 delay = 0.001 
 
-step_count = 0
+step_count = 0 # This needs to be within the range of 0 -30 as this is the limits of the lift
 
 def Lift(direction, revs):
     if direction == 0:
-        multiplyer = -1
+        step_count -= revs
     elif direction == 1:
-        multiplyer = 1
-    else:
-        multiplyer = 0
-    step_count += revs * multiplyer 
+        step_count += revs
 
     GPIO.output(DIR, GPIO.HIGH if direction == 0 else GPIO.LOW)
     steps = int(SPR * revs)
@@ -30,7 +27,7 @@ def Lift(direction, revs):
         GPIO.output(STEP, GPIO.LOW)
         time.sleep(delay)
 
-try:
+while(1):
     # Input: "0 5" for 5 rev CW, "1 2.5" for 2.5 rev CCW
     direction, revs = input("Enter direction (0=CW, 1=CCW) and revolutions: ").split()
     direction = int(direction)
@@ -49,8 +46,3 @@ try:
         time.sleep(delay)
 
     print("Done")
-
-except KeyboardInterrupt:
-    print("\nStopped manually.")
-finally:
-    GPIO.cleanup()
